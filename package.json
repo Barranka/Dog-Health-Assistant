@@ -1,0 +1,41 @@
+{
+  "name": "dog-health-assistant",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Dog Health Assistant monorepository for Telegram Mini App, web app, API and bot.",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "db:docker:down": "docker compose down",
+    "db:docker:logs": "docker compose logs -f postgres",
+    "db:docker:ps": "docker compose ps",
+    "db:docker:restart": "docker compose restart postgres",
+    "db:docker:up": "docker compose up -d postgres",
+    "db:ready": "$(brew --prefix postgresql@16)/bin/pg_isready -h localhost -p 5432",
+    "db:restart": "brew services restart postgresql@16",
+    "db:start": "brew services start postgresql@16",
+    "db:status": "brew services list",
+    "db:stop": "brew services stop postgresql@16",
+    "db:version": "$(brew --prefix postgresql@16)/bin/psql --version",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "typecheck": "tsc --build --pretty"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.28.0",
+    "@types/node": "22.15.30",
+    "eslint": "9.28.0",
+    "eslint-config-prettier": "10.1.5",
+    "globals": "16.2.0",
+    "prettier": "3.5.3",
+    "typescript": "5.8.3",
+    "typescript-eslint": "8.33.1"
+  }
+}
