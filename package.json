@@ -8,6 +8,10 @@
     "packages/*"
   ],
   "scripts": {
+    "api:build": "npm run build --workspace @dog-health/api",
+    "api:dev": "npm run dev --workspace @dog-health/api",
+    "api:start": "npm run start --workspace @dog-health/api",
+    "api:typecheck": "npm run typecheck --workspace @dog-health/api",
     "db:docker:down": "docker compose down",
     "db:docker:logs": "docker compose logs -f postgres",
     "db:docker:ps": "docker compose ps",

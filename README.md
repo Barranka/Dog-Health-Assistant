@@ -72,3 +72,20 @@ npm run db:docker:ps
 npm run db:docker:logs
 npm run db:docker:down
 ```
+
+## NestJS API
+
+Stage 3 adds the backend application in `apps/api`.
+
+```zsh
+npm run api:dev
+npm run api:build
+npm run api:start
+```
+
+Local endpoints:
+
+```text
+GET http://localhost:3000/api/health
+GET http://localhost:3000/api/docs
+```
