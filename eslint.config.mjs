@@ -12,6 +12,7 @@ export default tseslint.config(
       '**/coverage/**',
       '**/.turbo/**',
       'eslint.config.mjs',
+      'apps/api/prisma.config.ts',
     ],
   },
   js.configs.recommended,

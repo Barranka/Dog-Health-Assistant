@@ -1,0 +1,156 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum DogSex {
+  female
+  male
+}
+
+enum HealthEventType {
+  vaccination
+  revaccination
+  deworming
+  tick_treatment
+  flea_treatment
+  vet_visit
+  surgery
+  other
+}
+
+enum ReminderType {
+  heat_cycle
+  health_event
+  custom
+}
+
+enum SymptomRiskLevel {
+  low
+  medium
+  high
+}
+
+enum KnowledgeCategory {
+  proestrus
+  estrus
+  diestrus
+  false_pregnancy
+  postpartum
+  vet_warning_signs
+}
+
+model User {
+  id         String   @id @default(cuid())
+  telegramId String   @unique
+  firstName  String?
+  username   String?
+  createdAt  DateTime @default(now())
+
+  dogs Dog[]
+
+  @@map("users")
+}
+
+model Dog {
+  id         String    @id @default(cuid())
+  userId     String
+  name       String
+  breed      String?
+  sex        DogSex
+  birthDate  DateTime?
+  weight     Decimal?  @db.Decimal(6, 2)
+  color      String?
+  sterilized Boolean   @default(false)
+  notes      String?
+  createdAt  DateTime  @default(now())
+
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  heatCycles     HeatCycle[]
+  healthEvents   HealthEvent[]
+  reminders      Reminder[]
+  symptomReports SymptomReport[]
+
+  @@index([userId])
+  @@map("dogs")
+}
+
+model HeatCycle {
+  id        String   @id @default(cuid())
+  dogId     String
+  startDate DateTime
+  endDate   DateTime?
+  duration  Int?
+  predicted Boolean  @default(false)
+  notes     String?
+  createdAt DateTime @default(now())
+
+  dog Dog @relation(fields: [dogId], references: [id], onDelete: Cascade)
+
+  @@index([dogId])
+  @@index([startDate])
+  @@map("heat_cycles")
+}
+
+model HealthEvent {
+  id               String          @id @default(cuid())
+  dogId            String
+  type             HealthEventType
+  title            String
+  eventDate        DateTime
+  nextReminderDate DateTime?
+  notes            String?
+  createdAt        DateTime        @default(now())
+
+  dog Dog @relation(fields: [dogId], references: [id], onDelete: Cascade)
+
+  @@index([dogId])
+  @@index([eventDate])
+  @@index([nextReminderDate])
+  @@map("health_events")
+}
+
+model Reminder {
+  id           String       @id @default(cuid())
+  dogId        String
+  type         ReminderType
+  reminderDate DateTime
+  sent         Boolean      @default(false)
+  createdAt    DateTime     @default(now())
+
+  dog Dog @relation(fields: [dogId], references: [id], onDelete: Cascade)
+
+  @@index([dogId])
+  @@index([reminderDate])
+  @@index([sent])
+  @@map("reminders")
+}
+
+model SymptomReport {
+  id         String            @id @default(cuid())
+  dogId      String
+  text       String
+  aiAnalysis String?
+  riskLevel  SymptomRiskLevel?
+  createdAt  DateTime          @default(now())
+
+  dog Dog @relation(fields: [dogId], references: [id], onDelete: Cascade)
+
+  @@index([dogId])
+  @@index([riskLevel])
+  @@map("symptom_reports")
+}
+
+model KnowledgeArticle {
+  id        String            @id @default(cuid())
+  title     String
+  category  KnowledgeCategory
+  content   String
+  createdAt DateTime          @default(now())
+
+  @@index([category])
+  @@map("knowledge_articles")
+}

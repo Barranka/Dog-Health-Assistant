@@ -7,6 +7,9 @@ import helmet from 'helmet';
 
 import { AppModule } from './app.module.js';
 import { getApiPort } from './config/environment.js';
+import { loadEnvironment } from './config/load-environment.js';
+
+loadEnvironment();
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
