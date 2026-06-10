@@ -4,6 +4,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class TelegramLoginDto {
   @ApiProperty({
+    type: String,
     description: 'Telegram user id from Telegram Login widget.',
   })
   @Transform(({ value }) => String(value))
@@ -12,6 +13,7 @@ export class TelegramLoginDto {
   id!: string;
 
   @ApiPropertyOptional({
+    type: String,
     description: 'Telegram first name from Telegram Login widget.',
   })
   @IsOptional()
@@ -19,6 +21,7 @@ export class TelegramLoginDto {
   first_name?: string;
 
   @ApiPropertyOptional({
+    type: String,
     description: 'Telegram username from Telegram Login widget.',
   })
   @IsOptional()
@@ -26,6 +29,7 @@ export class TelegramLoginDto {
   username?: string;
 
   @ApiProperty({
+    type: Number,
     description: 'Telegram auth_date from Telegram Login widget.',
   })
   @Transform(({ value }) => Number(value))
@@ -34,6 +38,7 @@ export class TelegramLoginDto {
   auth_date!: number;
 
   @ApiProperty({
+    type: String,
     description: 'Telegram HMAC hash from Telegram Login widget.',
   })
   @IsString()

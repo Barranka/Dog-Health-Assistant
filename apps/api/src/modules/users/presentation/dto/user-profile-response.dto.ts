@@ -1,18 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UserProfileResponseDto {
-  @ApiProperty()
+  @ApiProperty({ type: String })
   id!: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: String })
   telegramId!: string;
 
-  @ApiProperty({ nullable: true })
+  @ApiProperty({ type: String, nullable: true })
   firstName!: string | null;
 
-  @ApiProperty({ nullable: true })
+  @ApiProperty({ type: String, nullable: true })
   username!: string | null;
 
-  @ApiProperty()
+  @ApiProperty({ type: Date })
   createdAt!: Date;
 }

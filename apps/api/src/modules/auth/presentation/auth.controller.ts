@@ -4,6 +4,10 @@ import type { Request } from 'express';
 
 import { GetCurrentUserUseCase } from '../application/get-current-user.use-case.js';
 import {
+  LoginWithDevUserUseCase,
+  type DevAuthResult,
+} from '../application/login-with-dev-user.use-case.js';
+import {
   LoginWithTelegramLoginUseCase,
   type TelegramLoginAuthResult,
 } from '../application/login-with-telegram-login.use-case.js';
@@ -28,6 +32,8 @@ export class AuthController {
     private readonly loginWithTelegramMiniAppUseCase: LoginWithTelegramMiniAppUseCase,
     @Inject(LoginWithTelegramLoginUseCase)
     private readonly loginWithTelegramLoginUseCase: LoginWithTelegramLoginUseCase,
+    @Inject(LoginWithDevUserUseCase)
+    private readonly loginWithDevUserUseCase: LoginWithDevUserUseCase,
     @Inject(GetCurrentUserUseCase)
     private readonly getCurrentUserUseCase: GetCurrentUserUseCase,
   ) {}
@@ -50,6 +56,13 @@ export class AuthController {
       authDate: dto.auth_date,
       hash: dto.hash,
     });
+  }
+
+  @Post('dev-login')
+  @ApiOperation({ summary: 'Authorize as local development user' })
+  @ApiOkResponse({ description: 'Development user has been authorized.' })
+  loginWithDevUser(): Promise<DevAuthResult> {
+    return this.loginWithDevUserUseCase.execute();
   }
 
   @Get('me')

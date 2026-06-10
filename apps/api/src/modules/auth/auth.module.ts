@@ -3,6 +3,7 @@ import { JwtModule } from '@nestjs/jwt';
 
 import { AuthTokenService } from './application/auth-token.service.js';
 import { GetCurrentUserUseCase } from './application/get-current-user.use-case.js';
+import { LoginWithDevUserUseCase } from './application/login-with-dev-user.use-case.js';
 import { LoginWithTelegramLoginUseCase } from './application/login-with-telegram-login.use-case.js';
 import { LoginWithTelegramMiniAppUseCase } from './application/login-with-telegram-mini-app.use-case.js';
 import { TelegramAuthService } from './application/telegram-auth.service.js';
@@ -18,6 +19,7 @@ import { JwtAuthGuard } from './presentation/guards/jwt-auth.guard.js';
     AuthTokenService,
     GetCurrentUserUseCase,
     JwtAuthGuard,
+    LoginWithDevUserUseCase,
     LoginWithTelegramLoginUseCase,
     LoginWithTelegramMiniAppUseCase,
     TelegramAuthService,
