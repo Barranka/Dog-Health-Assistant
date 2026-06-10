@@ -35,7 +35,11 @@
     "prisma:migrate:dev": "npm --workspace @dog-health/api run prisma:migrate:dev --",
     "prisma:migrate:status": "npm --workspace @dog-health/api run prisma:migrate:status",
     "prisma:studio": "npm --workspace @dog-health/api run prisma:studio",
-    "typecheck": "tsc --build --pretty"
+    "typecheck": "tsc --build --pretty",
+    "web:build": "npm run build --workspace @dog-health/web",
+    "web:dev": "npm run dev --workspace @dog-health/web",
+    "web:preview": "npm run preview --workspace @dog-health/web",
+    "web:typecheck": "npm run typecheck --workspace @dog-health/web"
   },
   "engines": {
     "node": ">=22.0.0",

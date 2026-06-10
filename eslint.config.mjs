@@ -13,6 +13,7 @@ export default tseslint.config(
       '**/.turbo/**',
       'eslint.config.mjs',
       'apps/api/prisma.config.ts',
+      'apps/web/vite.config.ts',
     ],
   },
   js.configs.recommended,

@@ -6,7 +6,9 @@ const DEFAULT_API_BASE_URL = 'http://localhost:3000/api';
 
 export function validateBotEnvironment(environment: NodeJS.ProcessEnv): BotEnvironment {
   const botToken = environment.TELEGRAM_BOT_TOKEN;
-  const appUrl = environment.APP_URL ?? (environment.BOT_DRY_RUN === 'true' ? DEFAULT_DRY_RUN_APP_URL : undefined);
+  const appUrl =
+    environment.APP_URL ??
+    (environment.BOT_DRY_RUN === 'true' ? DEFAULT_DRY_RUN_APP_URL : undefined);
   const apiBaseUrl = environment.API_BASE_URL ?? DEFAULT_API_BASE_URL;
   const dryRun = environment.BOT_DRY_RUN === 'true';
 
