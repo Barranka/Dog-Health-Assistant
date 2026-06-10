@@ -37,7 +37,7 @@ export function HomePage() {
   const { t } = useI18n();
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 lg:space-y-6">
       <InfoCard className="bg-[var(--app-accent-soft)]">
         <div className="flex items-start justify-between gap-3">
           <div>
@@ -55,7 +55,7 @@ export function HomePage() {
 
       <section>
         <SectionHeader title={t('home.quickActions')} />
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
           {quickActions.map((action) => {
             const Icon = action.icon;
 

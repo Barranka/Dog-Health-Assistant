@@ -26,6 +26,9 @@ export const dictionaries = {
       calendar: 'Календарь',
       health: 'Здоровье',
       knowledge: 'База',
+      heatCycles: 'Течки',
+      symptoms: 'Симптомы',
+      settings: 'Настройки',
     },
     topBar: {
       defaultOwner: 'Владелец',
@@ -83,6 +86,12 @@ export const dictionaries = {
       falsePregnancy: 'Ложная беременность',
       vetWarningSigns: 'Когда обращаться к ветеринару',
     },
+    desktop: {
+      workspace: 'Рабочее пространство',
+      mainNavigation: 'Основная навигация',
+      webMode: 'Web App режим',
+      webModeDescription: 'Расширенная навигация для браузера и больших экранов.',
+    },
   },
   en: {
     app: {
@@ -109,6 +118,9 @@ export const dictionaries = {
       calendar: 'Calendar',
       health: 'Health',
       knowledge: 'Knowledge',
+      heatCycles: 'Heat cycles',
+      symptoms: 'Symptoms',
+      settings: 'Settings',
     },
     topBar: {
       defaultOwner: 'Owner',
@@ -164,6 +176,12 @@ export const dictionaries = {
       diestrus: 'Diestrus',
       falsePregnancy: 'False pregnancy',
       vetWarningSigns: 'When to contact a veterinarian',
+    },
+    desktop: {
+      workspace: 'Workspace',
+      mainNavigation: 'Main navigation',
+      webMode: 'Web App mode',
+      webModeDescription: 'Expanded navigation for browsers and larger screens.',
     },
   },
 } as const;

@@ -10,7 +10,7 @@ export function TopBar() {
   const displayName = user?.firstName ?? t('topBar.defaultOwner');
 
   return (
-    <header className="sticky top-0 z-20 border-b border-[var(--app-border)] bg-[var(--app-bg)]/95 px-4 pb-3 pt-[calc(12px+env(safe-area-inset-top))] backdrop-blur">
+    <header className="sticky top-0 z-20 border-b border-[var(--app-border)] bg-[var(--app-bg)]/95 px-4 pb-3 pt-[calc(12px+env(safe-area-inset-top))] backdrop-blur sm:px-6 lg:px-8">
       <div className="flex min-h-12 items-center justify-between gap-3">
         <div className="min-w-0">
           <p className="text-xs font-medium uppercase tracking-wide text-[var(--app-muted)]">
