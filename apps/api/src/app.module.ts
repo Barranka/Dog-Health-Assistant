@@ -5,6 +5,7 @@ import { validateEnvironment } from './config/environment.validation.js';
 import { DatabaseModule } from './infrastructure/database/database.module.js';
 import { AuthModule } from './modules/auth/auth.module.js';
 import { DogsModule } from './modules/dogs/dogs.module.js';
+import { HeatCyclesModule } from './modules/heat-cycles/heat-cycles.module.js';
 import { HealthModule } from './modules/health/health.module.js';
 import { UsersModule } from './modules/users/users.module.js';
 
@@ -18,6 +19,7 @@ import { UsersModule } from './modules/users/users.module.js';
     DatabaseModule,
     AuthModule,
     DogsModule,
+    HeatCyclesModule,
     HealthModule,
     UsersModule,
   ],

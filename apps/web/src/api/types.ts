@@ -53,3 +53,24 @@ export interface TelegramLoginPayload {
   auth_date: number;
   hash: string;
 }
+
+export interface HeatCycleRecord {
+  id: string;
+  dogId: string;
+  startDate: string;
+  endDate: string | null;
+  duration: number | null;
+  status: 'active' | 'completed';
+  predicted: boolean;
+  notes: string | null;
+  createdAt: string;
+}
+
+export interface CreateHeatCyclePayload {
+  startDate: string;
+  endDate?: string | null;
+  predicted?: boolean;
+  notes?: string | null;
+}
+
+export type UpdateHeatCyclePayload = Partial<CreateHeatCyclePayload>;
