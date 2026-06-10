@@ -6,6 +6,7 @@ import { DatabaseModule } from './infrastructure/database/database.module.js';
 import { AuthModule } from './modules/auth/auth.module.js';
 import { DogsModule } from './modules/dogs/dogs.module.js';
 import { HeatCyclesModule } from './modules/heat-cycles/heat-cycles.module.js';
+import { HealthEventsModule } from './modules/health-events/health-events.module.js';
 import { HealthModule } from './modules/health/health.module.js';
 import { UsersModule } from './modules/users/users.module.js';
 
@@ -20,6 +21,7 @@ import { UsersModule } from './modules/users/users.module.js';
     AuthModule,
     DogsModule,
     HeatCyclesModule,
+    HealthEventsModule,
     HealthModule,
     UsersModule,
   ],

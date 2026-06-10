@@ -74,3 +74,35 @@ export interface CreateHeatCyclePayload {
 }
 
 export type UpdateHeatCyclePayload = Partial<CreateHeatCyclePayload>;
+
+export type HealthEventType =
+  | 'vaccination'
+  | 'revaccination'
+  | 'deworming'
+  | 'tick_treatment'
+  | 'flea_treatment'
+  | 'weight_tracking'
+  | 'vet_visit'
+  | 'surgery'
+  | 'other';
+
+export interface HealthEventRecord {
+  id: string;
+  dogId: string;
+  type: HealthEventType;
+  title: string;
+  eventDate: string;
+  nextReminderDate: string | null;
+  notes: string | null;
+  createdAt: string;
+}
+
+export interface CreateHealthEventPayload {
+  type: HealthEventType;
+  title: string;
+  eventDate: string;
+  nextReminderDate?: string | null;
+  notes?: string | null;
+}
+
+export type UpdateHealthEventPayload = Partial<CreateHealthEventPayload>;

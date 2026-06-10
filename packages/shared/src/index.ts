@@ -15,6 +15,7 @@ export enum HealthEventType {
   Deworming = 'deworming',
   TickTreatment = 'tick_treatment',
   FleaTreatment = 'flea_treatment',
+  WeightTracking = 'weight_tracking',
   VetVisit = 'vet_visit',
   Surgery = 'surgery',
   Other = 'other',

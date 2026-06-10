@@ -17,6 +17,7 @@ enum HealthEventType {
   deworming
   tick_treatment
   flea_treatment
+  weight_tracking
   vet_visit
   surgery
   other
