@@ -13,3 +13,4 @@ apps/*/*.d.ts
 apps/*/*.js.map
 apps/*/*.d.ts.map
 .DS_Store
+.vscode/

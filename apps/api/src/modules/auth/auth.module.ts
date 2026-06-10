@@ -26,5 +26,6 @@ import { JwtAuthGuard } from './presentation/guards/jwt-auth.guard.js';
       useClass: PrismaUserRepository,
     },
   ],
+  exports: [AuthTokenService, JwtAuthGuard],
 })
 export class AuthModule {}
