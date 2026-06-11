@@ -62,9 +62,9 @@ const calendarEventStyles: Record<CalendarEventKind, CalendarEventStyle> = {
     textColor: '#9d174d',
   },
   predictedHeatCycle: {
-    backgroundColor: '#f3e8ff',
-    borderColor: '#c084fc',
-    textColor: '#6b21a8',
+    backgroundColor: '#fee2e2',
+    borderColor: '#f87171',
+    textColor: '#991b1b',
   },
   healthEvent: {
     backgroundColor: '#dbeafe',

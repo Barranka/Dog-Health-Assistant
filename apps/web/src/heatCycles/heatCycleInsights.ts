@@ -1,5 +1,6 @@
 import type { HeatCycleRecord } from '../api/types.js';
 import type { TranslationKey } from '../i18n/dictionaries.js';
+import { defaultCycleLengthDays, getHeatCycleForecast } from './heatCycleForecast.js';
 
 interface ForecastRange {
   from: Date;
@@ -35,7 +36,6 @@ export interface CycleAnalytics {
 }
 
 const millisecondsPerDay = 24 * 60 * 60 * 1000;
-const defaultCycleLengthDays = 183;
 
 export function getActiveHeatCycleInsights(
   cycle: HeatCycleRecord,
@@ -76,14 +76,15 @@ export function getCycleAnalytics(
   const endDate = lastCycle.endDate ? parseDateOnly(lastCycle.endDate) : null;
   const cycleDay = getInclusiveDayDifference(startDate, now);
   const averageHeatLengthDays = getAverageCompletedDuration(sortedCycles);
-  const averageCycleLengthDays = getAverageCycleLength(sortedCycles);
+  const heatForecast = getHeatCycleForecast(sortedCycles);
+  const averageCycleLengthDays = heatForecast?.averageCycleLengthDays ?? null;
   const activeEndForecastRange = endDate
     ? null
     : averageHeatLengthDays
       ? getPersonalizedForecastRange(startDate, averageHeatLengthDays)
       : getDefaultForecastRange(startDate);
   const nextHeatEstimatedAt = endDate
-    ? addDays(startDate, averageCycleLengthDays ?? defaultCycleLengthDays)
+    ? (heatForecast?.nextHeatEstimatedAt ?? addDays(startDate, defaultCycleLengthDays))
     : null;
   const daysAfterHeatEnd = endDate ? getElapsedDayDifference(endDate, now) : null;
   const phase = getReproductivePhase(cycleDay, daysAfterHeatEnd);
@@ -139,31 +140,6 @@ function getDurationFromDates(cycle: HeatCycleRecord): number | null {
   }
 
   return getInclusiveDayDifference(parseDateOnly(cycle.startDate), parseDateOnly(cycle.endDate));
-}
-
-function getAverageCycleLength(heatCycles: HeatCycleRecord[]): number | null {
-  if (heatCycles.length < 2) {
-    return null;
-  }
-
-  const intervals: number[] = [];
-
-  for (let index = 1; index < heatCycles.length; index += 1) {
-    const previousCycle = heatCycles[index - 1];
-    const cycle = heatCycles[index];
-
-    if (previousCycle && cycle) {
-      intervals.push(
-        getElapsedDayDifference(
-          parseDateOnly(previousCycle.startDate),
-          parseDateOnly(cycle.startDate),
-        ),
-      );
-    }
-  }
-  const total = intervals.reduce((sum, interval) => sum + interval, 0);
-
-  return Math.round(total / intervals.length);
 }
 
 function getDefaultForecastRange(startDate: Date): ForecastRange {

@@ -175,8 +175,7 @@ function HealthEventCard({ healthEvent, isDeleting, onEdit, onDelete }: HealthEv
     <InfoCard>
       <div className="space-y-3">
         <div className="min-w-0">
-          <div className="flex flex-wrap items-center gap-2">
-            <p className="font-semibold">{healthEvent.title}</p>
+          <div className="flex items-start justify-between gap-3">
             <span
               className={[
                 'inline-flex min-h-7 max-w-full items-center rounded-full px-2.5 text-[11px] font-semibold ring-1',
@@ -185,10 +184,11 @@ function HealthEventCard({ healthEvent, isDeleting, onEdit, onDelete }: HealthEv
             >
               {t(getHealthEventTypeLabelKey(healthEvent.type))}
             </span>
+            <span className="shrink-0 text-xs font-medium text-[var(--app-muted)]">
+              {formatFullDate(healthEvent.eventDate)}
+            </span>
           </div>
-          <p className="mt-2 text-sm text-[var(--app-muted)]">
-            {t('healthPage.eventDate')}: {formatFullDate(healthEvent.eventDate)}
-          </p>
+          <p className="mt-2 font-semibold">{healthEvent.title}</p>
           {healthEvent.nextReminderDate ? (
             <p className="mt-1 text-sm text-[var(--app-muted)]">
               {t('healthPage.nextReminderDate')}: {formatFullDate(healthEvent.nextReminderDate)}

@@ -29,6 +29,17 @@ enum ReminderType {
   custom
 }
 
+enum NotificationType {
+  health_event_reminder
+  heat_cycle_check
+  heat_cycle_forecast
+}
+
+enum NotificationStatus {
+  unread
+  read
+}
+
 enum SymptomRiskLevel {
   low
   medium
@@ -51,7 +62,8 @@ model User {
   username   String?
   createdAt  DateTime @default(now())
 
-  dogs Dog[]
+  dogs          Dog[]
+  notifications Notification[]
 
   @@map("users")
 }
@@ -74,20 +86,21 @@ model Dog {
   healthEvents   HealthEvent[]
   reminders      Reminder[]
   symptomReports SymptomReport[]
+  notifications  Notification[]
 
   @@index([userId])
   @@map("dogs")
 }
 
 model HeatCycle {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   dogId     String
   startDate DateTime
   endDate   DateTime?
   duration  Int?
-  predicted Boolean  @default(false)
+  predicted Boolean   @default(false)
   notes     String?
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
 
   dog Dog @relation(fields: [dogId], references: [id], onDelete: Cascade)
 
@@ -128,6 +141,35 @@ model Reminder {
   @@index([reminderDate])
   @@index([sent])
   @@map("reminders")
+}
+
+model Notification {
+  id                String             @id @default(cuid())
+  userId            String
+  dogId             String?
+  type              NotificationType
+  title             String
+  message           String
+  status            NotificationStatus @default(unread)
+  scheduledAt       DateTime
+  readAt            DateTime?
+  telegramSentAt    DateTime?
+  telegramError     String?
+  relatedEntityType String?
+  relatedEntityId   String?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dog  Dog? @relation(fields: [dogId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, type, relatedEntityType, relatedEntityId, scheduledAt], map: "notifications_userId_type_relatedEntityType_relatedEntityId_key")
+  @@index([userId])
+  @@index([dogId])
+  @@index([status])
+  @@index([scheduledAt])
+  @@index([telegramSentAt])
+  @@map("notifications")
 }
 
 model SymptomReport {

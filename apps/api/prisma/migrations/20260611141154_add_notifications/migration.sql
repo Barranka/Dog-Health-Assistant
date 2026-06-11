@@ -1,0 +1,2 @@
+-- RenameIndex
+ALTER INDEX "notifications_userId_type_relatedEntityType_relatedEntityId_sch" RENAME TO "notifications_userId_type_relatedEntityType_relatedEntityId_key";

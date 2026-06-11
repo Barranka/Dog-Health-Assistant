@@ -1,5 +1,6 @@
 import type { HealthEventRecord, HeatCycleRecord } from '../api/types.js';
 import { getHealthEventTypeShortLabelKey } from '../healthEvents/healthEventTypes.js';
+import { formatDateOnly, getHeatCycleForecast } from '../heatCycles/heatCycleForecast.js';
 import type { CalendarEventItem } from './calendarEventTypes.js';
 
 interface BuildCalendarEventsInput {
@@ -29,6 +30,21 @@ export function buildCalendarEvents({
       description: heatCycle.notes,
     };
   });
+  const heatCycleForecast = getHeatCycleForecast(heatCycles);
+  const forecastEvent = heatCycleForecast
+    ? [
+        {
+          id: 'heat-cycle-forecast-next',
+          kind: 'predictedHeatCycle',
+          title: 'Прогноз течки',
+          date: formatDateOnly(heatCycleForecast.nextHeatEstimatedAt),
+          endDate: null,
+          description: heatCycleForecast.isPersonalized
+            ? 'Прогноз рассчитан по истории циклов питомца.'
+            : 'Прогноз рассчитан по среднему интервалу около 6 месяцев.',
+        } satisfies CalendarEventItem,
+      ]
+    : [];
 
   const healthEventItems = healthEvents
     .map((healthEvent): CalendarEventItem | null => {
@@ -69,7 +85,7 @@ export function buildCalendarEvents({
     })
     .filter((event): event is CalendarEventItem => Boolean(event));
 
-  return [...heatCycleEvents, ...healthEventItems, ...reminderItems].sort(
+  return [...heatCycleEvents, ...forecastEvent, ...healthEventItems, ...reminderItems].sort(
     (firstEvent, secondEvent) => firstEvent.date.localeCompare(secondEvent.date),
   );
 }

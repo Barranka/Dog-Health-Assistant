@@ -1,6 +1,7 @@
-import { Bell, Settings } from 'lucide-react';
+import { Settings } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+import { NotificationBell } from '../../notifications/components/NotificationBell.js';
 import { useI18n } from '../../i18n/useI18n.js';
 import { useTelegram } from '../../telegram/useTelegram.js';
 
@@ -22,9 +23,7 @@ export function TopBar() {
           <span className="rounded-full border border-[var(--app-border)] px-2 py-1 text-xs text-[var(--app-muted)]">
             {isTelegram ? t('app.modeTelegram') : t('app.modePreview')}
           </span>
-          <button className="icon-button" type="button" aria-label={t('app.notifications')}>
-            <Bell size={19} />
-          </button>
+          <NotificationBell />
           <Link className="icon-button" to="/settings" aria-label={t('app.settings')}>
             <Settings size={19} />
           </Link>

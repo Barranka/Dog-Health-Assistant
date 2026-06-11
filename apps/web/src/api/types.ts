@@ -106,3 +106,29 @@ export interface CreateHealthEventPayload {
 }
 
 export type UpdateHealthEventPayload = Partial<CreateHealthEventPayload>;
+
+export type NotificationType = 'health_event_reminder' | 'heat_cycle_check' | 'heat_cycle_forecast';
+
+export type NotificationStatus = 'unread' | 'read';
+
+export interface NotificationRecord {
+  id: string;
+  userId: string;
+  dogId: string | null;
+  type: NotificationType;
+  title: string;
+  message: string;
+  status: NotificationStatus;
+  scheduledAt: string;
+  readAt: string | null;
+  telegramSentAt: string | null;
+  telegramError: string | null;
+  relatedEntityType: string | null;
+  relatedEntityId: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface UnreadNotificationsCount {
+  unreadCount: number;
+}
