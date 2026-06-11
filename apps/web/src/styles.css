@@ -64,3 +64,97 @@ textarea {
   font-size: 14px;
   font-weight: 700;
 }
+
+.fc .health-calendar-event {
+  min-height: 28px;
+  border-left-width: 5px;
+  padding: 2px 4px;
+}
+
+.fc .health-calendar-event .fc-event-main {
+  display: flex;
+  align-items: center;
+}
+
+.fc .health-calendar-event .fc-event-title,
+.fc .health-calendar-event .fc-event-time {
+  overflow: hidden;
+  white-space: normal;
+  line-height: 1.25;
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+  margin-bottom: 12px;
+}
+
+.fc .fc-toolbar-title {
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.fc .fc-button {
+  min-height: 34px;
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+  background: var(--app-button);
+  padding: 6px 10px;
+  color: var(--app-button-text);
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: none;
+}
+
+.fc .fc-button:hover,
+.fc .fc-button:focus {
+  border-color: var(--app-button);
+  background: color-mix(in srgb, var(--app-button) 88%, black);
+  color: var(--app-button-text);
+  box-shadow: none;
+}
+
+.fc .fc-button:disabled {
+  border-color: var(--app-border);
+  background: var(--app-surface);
+  color: var(--app-muted);
+  opacity: 1;
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active,
+.fc .fc-button-primary:not(:disabled):active {
+  border-color: var(--app-button);
+  background: var(--app-button);
+  color: var(--app-button-text);
+  box-shadow: none;
+}
+
+@media (max-width: 520px) {
+  .fc .fc-toolbar.fc-header-toolbar {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .fc .fc-toolbar-chunk {
+    display: flex;
+    justify-content: center;
+  }
+
+  .fc .fc-toolbar-chunk:nth-child(1) {
+    order: 2;
+  }
+
+  .fc .fc-toolbar-chunk:nth-child(2) {
+    order: 1;
+  }
+
+  .fc .fc-toolbar-title {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .fc .fc-button {
+    min-height: 32px;
+    padding: 5px 8px;
+    font-size: 12px;
+  }
+}

@@ -28,6 +28,22 @@ export function getHealthEventTypeLabelKey(type: HealthEventType): TranslationKe
   return labelKeys[type];
 }
 
+export function getHealthEventTypeShortLabelKey(type: HealthEventType): TranslationKey {
+  const labelKeys: Record<HealthEventType, TranslationKey> = {
+    vaccination: 'calendar.shortVaccination',
+    revaccination: 'calendar.shortVaccination',
+    deworming: 'calendar.shortDeworming',
+    tick_treatment: 'calendar.shortTickTreatment',
+    flea_treatment: 'calendar.shortFleaTreatment',
+    weight_tracking: 'calendar.shortWeightTracking',
+    vet_visit: 'calendar.shortVetVisit',
+    surgery: 'calendar.shortSurgery',
+    other: 'calendar.shortOther',
+  };
+
+  return labelKeys[type];
+}
+
 export function getHealthEventTypeBadgeClassName(type: HealthEventType): string {
   const badgeClassNames: Record<HealthEventType, string> = {
     vaccination: 'bg-sky-50 text-sky-700 ring-sky-200',
