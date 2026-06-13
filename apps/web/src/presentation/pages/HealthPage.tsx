@@ -1,7 +1,9 @@
 import { HeartPulse, Pencil, Plus, Trash2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import type { HealthEventRecord } from '../../api/types.js';
+import { ActiveDogSelect } from '../../dogs/components/ActiveDogSelect.js';
+import { useActiveDog } from '../../dogs/useActiveDog.js';
 import { CreateHealthEventForm } from '../../healthEvents/components/CreateHealthEventForm.js';
 import { EditHealthEventForm } from '../../healthEvents/components/EditHealthEventForm.js';
 import {
@@ -10,35 +12,27 @@ import {
 } from '../../healthEvents/healthEventTypes.js';
 import { useDeleteHealthEventMutation } from '../../healthEvents/useDeleteHealthEventMutation.js';
 import { useHealthEventsQuery } from '../../healthEvents/useHealthEventsQuery.js';
-import { useDogsQuery } from '../../dogs/useDogsQuery.js';
 import { formatFullDate } from '../../heatCycles/heatCycleInsights.js';
 import { useI18n } from '../../i18n/useI18n.js';
 import { InfoCard } from '../components/InfoCard.js';
 
 export function HealthPage() {
   const { t } = useI18n();
-  const { data: dogs = [], isLoading: areDogsLoading } = useDogsQuery();
-  const [selectedDogId, setSelectedDogId] = useState<string | null>(null);
+  const { activeDogId, areDogsLoading, dogs } = useActiveDog();
   const [isCreateFormOpen, setIsCreateFormOpen] = useState(false);
   const [editingHealthEventId, setEditingHealthEventId] = useState<string | null>(null);
   const {
     data: healthEvents = [],
     isLoading: areHealthEventsLoading,
     error: healthEventsError,
-  } = useHealthEventsQuery(selectedDogId);
+  } = useHealthEventsQuery(activeDogId);
   const deleteHealthEventMutation = useDeleteHealthEventMutation();
-
-  useEffect(() => {
-    if (!selectedDogId && dogs[0]) {
-      setSelectedDogId(dogs[0].id);
-    }
-  }, [dogs, selectedDogId]);
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-3">
         <h2 className="text-xl font-semibold">{t('healthPage.title')}</h2>
-        {selectedDogId ? (
+        {activeDogId ? (
           <button
             className="primary-button"
             type="button"
@@ -71,45 +65,31 @@ export function HealthPage() {
 
       {dogs.length > 0 ? (
         <InfoCard>
-          <label className="block text-sm font-medium" htmlFor="health-event-dog">
-            {t('healthPage.dog')}
-          </label>
-          <select
-            className="mt-2 min-h-11 w-full rounded-lg border border-[var(--app-border)] bg-[var(--app-surface)] px-3 py-2 text-base outline-none focus:border-[var(--app-link)]"
-            id="health-event-dog"
-            value={selectedDogId ?? ''}
-            onChange={(event) => setSelectedDogId(event.target.value)}
-          >
-            {dogs.map((dog) => (
-              <option key={dog.id} value={dog.id}>
-                {dog.name}
-              </option>
-            ))}
-          </select>
+          <ActiveDogSelect id="health-event-dog" label={t('healthPage.dog')} />
         </InfoCard>
       ) : null}
 
-      {selectedDogId && areHealthEventsLoading ? (
+      {activeDogId && areHealthEventsLoading ? (
         <InfoCard>
           <p className="text-sm text-[var(--app-muted)]">{t('healthPage.loading')}</p>
         </InfoCard>
       ) : null}
 
-      {selectedDogId && healthEventsError ? (
+      {activeDogId && healthEventsError ? (
         <InfoCard>
           <p className="text-sm text-[var(--app-muted)]">{t('healthPage.loadError')}</p>
         </InfoCard>
       ) : null}
 
-      {selectedDogId && isCreateFormOpen ? (
+      {activeDogId && isCreateFormOpen ? (
         <CreateHealthEventForm
-          dogId={selectedDogId}
+          dogId={activeDogId}
           onCancel={() => setIsCreateFormOpen(false)}
           onCreated={() => setIsCreateFormOpen(false)}
         />
       ) : null}
 
-      {selectedDogId &&
+      {activeDogId &&
       !isCreateFormOpen &&
       !areHealthEventsLoading &&
       !healthEventsError &&
@@ -123,7 +103,7 @@ export function HealthPage() {
         </InfoCard>
       ) : null}
 
-      {selectedDogId && healthEvents.length > 0 ? (
+      {activeDogId && healthEvents.length > 0 ? (
         <div className="space-y-3">
           {healthEvents.map((healthEvent) =>
             editingHealthEventId === healthEvent.id ? (
@@ -148,7 +128,7 @@ export function HealthPage() {
                   }
 
                   deleteHealthEventMutation.mutate({
-                    dogId: selectedDogId,
+                    dogId: activeDogId,
                     healthEventId: healthEvent.id,
                   });
                 }}

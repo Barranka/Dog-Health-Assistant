@@ -14,6 +14,7 @@ export function CreateDogForm({ onCancel, onCreated }: CreateDogFormProps) {
   const createDogMutation = useCreateDogMutation();
   const [name, setName] = useState('');
   const [sex, setSex] = useState<'female' | 'male'>('female');
+  const [birthDate, setBirthDate] = useState('');
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -26,10 +27,12 @@ export function CreateDogForm({ onCancel, onCreated }: CreateDogFormProps) {
       await createDogMutation.mutateAsync({
         name: name.trim(),
         sex,
+        birthDate: birthDate || null,
       });
 
       setName('');
       setSex('female');
+      setBirthDate('');
       onCreated();
     } catch {
       // Error state is handled by createDogMutation.error.
@@ -61,6 +64,17 @@ export function CreateDogForm({ onCancel, onCreated }: CreateDogFormProps) {
           <option value="female">{t('dogs.sexFemale')}</option>
           <option value="male">{t('dogs.sexMale')}</option>
         </select>
+
+        <label className="block text-sm font-medium" htmlFor="dog-birth-date">
+          {t('dogs.birthDate')}
+        </label>
+        <input
+          className="w-full rounded-lg border border-[var(--app-border)] bg-[var(--app-surface)] px-3 py-2 text-sm outline-none focus:border-[var(--app-link)]"
+          id="dog-birth-date"
+          type="date"
+          value={birthDate}
+          onChange={(event) => setBirthDate(event.target.value)}
+        />
 
         {createDogMutation.error ? (
           <p className="text-sm text-red-500">{t('dogs.createError')}</p>

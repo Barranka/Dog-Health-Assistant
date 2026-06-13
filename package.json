@@ -34,6 +34,7 @@
     "prisma:generate": "npm --workspace @dog-health/api run prisma:generate",
     "prisma:migrate:dev": "npm --workspace @dog-health/api run prisma:migrate:dev --",
     "prisma:migrate:status": "npm --workspace @dog-health/api run prisma:migrate:status",
+    "prisma:seed": "npm --workspace @dog-health/api run prisma:seed",
     "prisma:studio": "npm --workspace @dog-health/api run prisma:studio",
     "typecheck": "tsc --build --pretty",
     "web:build": "npm run build --workspace @dog-health/web",

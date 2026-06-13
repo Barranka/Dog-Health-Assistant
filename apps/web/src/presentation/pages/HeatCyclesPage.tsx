@@ -1,6 +1,8 @@
 import { CalendarPlus, Info, Pencil, Trash2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
+import { ActiveDogSelect } from '../../dogs/components/ActiveDogSelect.js';
+import { useActiveDog } from '../../dogs/useActiveDog.js';
 import { CreateHeatCycleForm } from '../../heatCycles/components/CreateHeatCycleForm.js';
 import { EditHeatCycleForm } from '../../heatCycles/components/EditHeatCycleForm.js';
 import {
@@ -12,29 +14,21 @@ import {
 } from '../../heatCycles/heatCycleInsights.js';
 import { useDeleteHeatCycleMutation } from '../../heatCycles/useDeleteHeatCycleMutation.js';
 import { useHeatCyclesQuery } from '../../heatCycles/useHeatCyclesQuery.js';
-import { useDogsQuery } from '../../dogs/useDogsQuery.js';
 import type { TranslationKey } from '../../i18n/dictionaries.js';
 import { useI18n } from '../../i18n/useI18n.js';
 import { InfoCard } from '../components/InfoCard.js';
 
 export function HeatCyclesPage() {
   const { t } = useI18n();
-  const { data: dogs = [], isLoading: areDogsLoading } = useDogsQuery();
-  const [selectedDogId, setSelectedDogId] = useState<string | null>(null);
+  const { activeDogId, areDogsLoading, dogs } = useActiveDog();
   const [isCreateFormOpen, setIsCreateFormOpen] = useState(false);
   const [editingHeatCycleId, setEditingHeatCycleId] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!selectedDogId && dogs[0]) {
-      setSelectedDogId(dogs[0].id);
-    }
-  }, [dogs, selectedDogId]);
 
   const {
     data: heatCycles = [],
     isLoading: areHeatCyclesLoading,
     error: heatCyclesError,
-  } = useHeatCyclesQuery(selectedDogId);
+  } = useHeatCyclesQuery(activeDogId);
   const deleteHeatCycleMutation = useDeleteHeatCycleMutation();
   const cycleAnalytics = getCycleAnalytics(heatCycles);
 
@@ -42,7 +36,7 @@ export function HeatCyclesPage() {
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-3">
         <h2 className="text-xl font-semibold">{t('heatCycles.title')}</h2>
-        {selectedDogId ? (
+        {activeDogId ? (
           <button
             className="primary-button"
             type="button"
@@ -75,38 +69,24 @@ export function HeatCyclesPage() {
 
       {dogs.length > 0 ? (
         <InfoCard>
-          <label className="block text-sm font-medium" htmlFor="heat-cycle-dog">
-            {t('heatCycles.dog')}
-          </label>
-          <select
-            className="mt-2 min-h-11 w-full rounded-lg border border-[var(--app-border)] bg-[var(--app-surface)] px-3 py-2 text-base outline-none focus:border-[var(--app-link)]"
-            id="heat-cycle-dog"
-            value={selectedDogId ?? ''}
-            onChange={(event) => setSelectedDogId(event.target.value)}
-          >
-            {dogs.map((dog) => (
-              <option key={dog.id} value={dog.id}>
-                {dog.name}
-              </option>
-            ))}
-          </select>
+          <ActiveDogSelect id="heat-cycle-dog" label={t('heatCycles.dog')} />
         </InfoCard>
       ) : null}
-      {selectedDogId && areHeatCyclesLoading ? (
+      {activeDogId && areHeatCyclesLoading ? (
         <InfoCard>
           <p className="text-sm text-[var(--app-muted)]">{t('heatCycles.loading')}</p>
         </InfoCard>
       ) : null}
 
-      {selectedDogId && heatCyclesError ? (
+      {activeDogId && heatCyclesError ? (
         <InfoCard>
           <p className="text-sm text-[var(--app-muted)]">{t('heatCycles.loadError')}</p>
         </InfoCard>
       ) : null}
 
-      {selectedDogId && isCreateFormOpen ? (
+      {activeDogId && isCreateFormOpen ? (
         <CreateHeatCycleForm
-          dogId={selectedDogId}
+          dogId={activeDogId}
           onCancel={() => setIsCreateFormOpen(false)}
           onCreated={() => setIsCreateFormOpen(false)}
         />
@@ -114,7 +94,7 @@ export function HeatCyclesPage() {
 
       {cycleAnalytics ? <ReproductiveCycleSummary analytics={cycleAnalytics} /> : null}
 
-      {selectedDogId &&
+      {activeDogId &&
       !isCreateFormOpen &&
       !areHeatCyclesLoading &&
       !heatCyclesError &&
@@ -128,7 +108,7 @@ export function HeatCyclesPage() {
         </InfoCard>
       ) : null}
 
-      {selectedDogId && heatCycles.length > 0 ? (
+      {activeDogId && heatCycles.length > 0 ? (
         <div className="space-y-3">
           {heatCycles.map((cycle) =>
             editingHeatCycleId === cycle.id ? (
@@ -197,7 +177,7 @@ export function HeatCyclesPage() {
                         }
 
                         deleteHeatCycleMutation.mutate({
-                          dogId: selectedDogId,
+                          dogId: activeDogId,
                           heatCycleId: cycle.id,
                         });
                       }}

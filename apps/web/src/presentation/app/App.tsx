@@ -11,9 +11,10 @@ import { KnowledgePage } from '../pages/KnowledgePage.js';
 import { SettingsPage } from '../pages/SettingsPage.js';
 import { SymptomAnalysisPage } from '../pages/SymptomAnalysisPage.js';
 import { AuthGate } from '../../auth/AuthGate.js';
-import { TelegramProvider } from '../../telegram/TelegramProvider.js';
-import { I18nProvider } from '../../i18n/I18nProvider.js';
 import { AuthProvider } from '../../auth/AuthProvider.js';
+import { ActiveDogProvider } from '../../dogs/ActiveDogProvider.js';
+import { I18nProvider } from '../../i18n/I18nProvider.js';
+import { TelegramProvider } from '../../telegram/TelegramProvider.js';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -32,19 +33,21 @@ export function App() {
           <AuthProvider>
             <BrowserRouter>
               <AuthGate>
-                <Routes>
-                  <Route element={<AppLayout />}>
-                    <Route index element={<HomePage />} />
-                    <Route path="dogs" element={<DogsPage />} />
-                    <Route path="heat-cycles" element={<HeatCyclesPage />} />
-                    <Route path="calendar" element={<CalendarPage />} />
-                    <Route path="health" element={<HealthPage />} />
-                    <Route path="symptoms" element={<SymptomAnalysisPage />} />
-                    <Route path="knowledge" element={<KnowledgePage />} />
-                    <Route path="settings" element={<SettingsPage />} />
-                    <Route path="*" element={<Navigate to="/" replace />} />
-                  </Route>
-                </Routes>
+                <ActiveDogProvider>
+                  <Routes>
+                    <Route element={<AppLayout />}>
+                      <Route index element={<HomePage />} />
+                      <Route path="dogs" element={<DogsPage />} />
+                      <Route path="heat-cycles" element={<HeatCyclesPage />} />
+                      <Route path="calendar" element={<CalendarPage />} />
+                      <Route path="health" element={<HealthPage />} />
+                      <Route path="symptoms" element={<SymptomAnalysisPage />} />
+                      <Route path="knowledge" element={<KnowledgePage />} />
+                      <Route path="settings" element={<SettingsPage />} />
+                      <Route path="*" element={<Navigate to="/" replace />} />
+                    </Route>
+                  </Routes>
+                </ActiveDogProvider>
               </AuthGate>
             </BrowserRouter>
           </AuthProvider>

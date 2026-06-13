@@ -132,3 +132,22 @@ export interface NotificationRecord {
 export interface UnreadNotificationsCount {
   unreadCount: number;
 }
+
+export type KnowledgeCategory =
+  | 'proestrus'
+  | 'estrus'
+  | 'diestrus'
+  | 'false_pregnancy'
+  | 'postpartum'
+  | 'vet_warning_signs';
+
+export interface KnowledgeArticle {
+  id: string;
+  slug: string;
+  title: string;
+  category: KnowledgeCategory;
+  group: string;
+  locale: string;
+  content: string;
+  createdAt: string;
+}

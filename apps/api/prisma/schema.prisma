@@ -189,11 +189,17 @@ model SymptomReport {
 
 model KnowledgeArticle {
   id        String            @id @default(cuid())
+  slug      String            @default("")
   title     String
   category  KnowledgeCategory
+  group     String            @default("reproductive_cycle")
+  locale    String            @default("ru")
   content   String
   createdAt DateTime          @default(now())
 
+  @@unique([slug, locale])
+  @@index([group])
   @@index([category])
+  @@index([locale])
   @@map("knowledge_articles")
 }
